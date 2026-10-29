@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MenteAberta — Acolhimento juvenil e educação emocional</title>
+    <link rel="stylesheet" href="./assets/tailwind-preview.css">
+    <link rel="stylesheet" href="./assets/backend.css">
+    <meta name="description" content="MenteAberta: educação emocional, histórias interativas, comunidade moderada e diário emocional privado.">
+    <link rel="icon" href="./assets/favicon.png" type="image/png">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .disney-hero-gradient {
+            background: radial-gradient(circle at top right, #e0e7ff, #f3e8ff, #fce7f3);
+        }
+        .disney-card-shadow {
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.1), 0 10px 10px -5px rgba(79, 70, 229, 0.04);
+        }
+        .floating-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        /* Melhorias pontuais: preservação integral do layout original. */
+        .mente-avatar { width:100%; height:100%; object-fit:cover; border-radius:inherit; display:block; }
+        .mente-portrait { width:100%; height:100%; object-fit:cover; object-position:center 32%; display:block; }
+        .mente-blog-card { overflow:hidden; }
+        .mente-blog-card img { width:100%; height:190px; object-fit:cover; }
+        .mente-option { background:#fff; border:1px solid #e0e7ff; border-radius:999px; color:#5b4cc4; font-size:12px; font-weight:700; padding:9px 13px; transition:background .15s; }
+        .mente-option:hover { background:#f1edff; }
+        .mente-info { border-radius:16px; border:1px solid #e9d5ff; padding:13px 16px; font-size:12px; color:#65518a; background:#faf5ff; }
+
+        /* Marca oficial: arquivo de imagem independente do CSS. */
+        .mente-brand-logo {display:block;width:270px;height:auto;max-width:100%;object-fit:contain;}
+        @media (max-width:640px){.mente-brand-logo{width:206px;} .mente-header-actions .mente-pitch-button{display:none!important;} .mente-pitch-mobile{display:block!important;}}
+        @media (max-width:370px){.mente-brand-logo{width:184px;}}
+        .mente-pitch-mobile{display:none;}
+        /* Atualização focalizada da marca, navegação responsiva e conversa. */
+        .mente-brand { min-width:0; flex-shrink:0; text-decoration:none; }
+        .mente-brand-symbol { display:block; width:54px; height:54px; flex:none; filter:drop-shadow(0 4px 9px rgba(86,71,180,.10)); }
+        .mente-brand-text { display:flex; flex-direction:column; min-width:0; line-height:1.08; }
+        .mente-brand-text strong { font-family:Inter,sans-serif; font-size:22px; letter-spacing:-1.1px; font-weight:800; color:#3441a3; white-space:nowrap; }
+        .mente-brand-text strong span { color:#8c56cb; }
+        .mente-brand-text small { color:#7e7197; font-size:10px; letter-spacing:.03em; margin-top:6px; font-weight:700; white-space:nowrap; }
+        .mente-desktop-nav { min-width:0; }
+        .mente-desktop-nav a { white-space:nowrap; }
+        .mente-header-container { gap:16px; }
+        .mente-header-actions { flex-shrink:0; }
+        .mente-menu-toggle { display:none; width:44px; height:44px; flex:0 0 44px; align-items:center; justify-content:center; border:1px solid #e7dffc; }
+        .mente-mobile-menu { position:absolute; z-index:60; top:100%; left:0; right:0; max-height:calc(100dvh - 74px); overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; background:rgba(255,255,255,.98); padding:12px max(18px, calc((100vw - 560px)/2)) 22px; box-shadow:0 22px 45px rgba(56,45,130,.17); }
+        .mente-mobile-menu a { font-size:15px; padding:13px 17px; border-radius:14px; margin:2px 0; display:block; line-height:1.4; }
+        .mente-mobile-menu a:focus-visible,.mente-menu-toggle:focus-visible,.mente-starter-list button:focus-visible,.mente-option:focus-visible { outline:3px solid #9988f1; outline-offset:3px; }
+        .mente-choice-bar { max-height:118px; overflow:auto; flex-shrink:0; align-content:flex-start; }
+        .mente-chat-messages { min-height:0; overscroll-behavior:contain; }
+        .mente-chat-input-row { flex-shrink:0; }
+        .mente-chat-input-row input { min-width:0; }
+        .mente-chat-send { flex-shrink:0; min-width:51px; min-height:48px; }
+        .mente-message-text { overflow-wrap:anywhere; white-space:pre-wrap; }
+        .mente-option { line-height:1.35; min-height:37px; }
+        .mente-starter-wrap { display:flex; flex-direction:column; align-items:center; gap:12px; }
+        .mente-starter-list { width:100%; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:9px; }
+        .mente-starter-list button { border:1px solid #e1d9f8; background:#fff; color:#6554a4; padding:10px 14px; font-size:12px; font-weight:700; border-radius:999px; transition:background .18s,transform .18s; }
+        .mente-starter-list button:hover { background:#f2ecff; transform:translateY(-1px); }
+        .mente-typing { font-size:12px; color:#817198; padding:7px 18px; background:#faf7ff; font-weight:600; }
+        .mente-typing-dots { animation:mente-pulse 1.25s ease-in-out infinite; }
+        @keyframes mente-pulse { 50%{opacity:.15} }
+        [id^="home"],section[id] { scroll-margin-top:86px; }
+        @media(max-width:1390px) and (min-width:1281px) {
+            .mente-desktop-nav { gap:1px!important; }
+            .mente-desktop-nav a { padding:8px 9px!important; font-size:12px!important; }
+            .mente-brand-text strong { font-size:19px; }
+            .mente-brand-text small { font-size:9px; }
+        }
+        @media(max-width:1280px) {
+            .mente-desktop-nav { display:none!important; }
+            .mente-menu-toggle { display:flex!important; }
+            .mente-mobile-menu:not(.hidden) { display:block!important; }
+        }
+        @media(min-width:1281px) {
+            .mente-menu-toggle,.mente-mobile-menu { display:none!important; }
+        }
+        @media(max-width:640px) {
+            .mente-header-container { height:70px; padding-left:14px!important; padding-right:14px!important; gap:8px; }
+            .mente-brand { gap:7px!important; }
+            .mente-brand-symbol { width:44px; height:44px; }
+            .mente-brand-text strong { font-size:18px; letter-spacing:-.75px; }
+            .mente-brand-text small { font-size:8.5px; letter-spacing:0; }
+            .mente-pitch-button { padding:10px 11px!important; min-height:42px; font-size:11px!important; gap:7px!important; box-shadow:none!important; }
+            .mente-menu-toggle { width:42px; height:42px; flex-basis:42px; }
+            .mente-mobile-menu { max-height:calc(100dvh - 70px); }
+            .mente-chat-window { height:min(660px,84dvh); min-height:530px; border-radius:23px; }
+            .mente-chat-messages { padding:14px!important; }
+            .mente-choice-bar { padding:10px 12px!important; max-height:116px; }
+            .mente-chat-input-row { padding:11px!important; gap:8px!important; }
+            .mente-chat-input-row input { padding:12px!important; font-size:13px!important; }
+            .mente-chat-send { min-width:46px; min-height:46px; padding:11px!important; }
+            .mente-starter-list { flex-wrap:nowrap; overflow-x:auto; width:100%; justify-content:flex-start; padding:2px 1px 12px; scrollbar-width:thin; }
+            .mente-starter-list button { flex-shrink:0; }
+            section[id] { scroll-margin-top:75px; }
+        }
+        @media(max-width:380px) {
+            .mente-brand-text small { display:none; }
+            .mente-pitch-button span { display:none; }
+            .mente-pitch-button { width:41px; min-width:41px; padding:0!important; align-items:center; justify-content:center; }
+            .mente-brand-symbol { width:42px; height:42px; }
+        }
+        @media(prefers-reduced-motion:reduce){ .mente-typing-dots{animation:none;} }
+
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- HEADER / BARRA DE NAVEGAÇÃO -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-indigo-100 shadow-sm">
+        <div class="mente-header-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo original em imagem PNG transparente, não construída por CSS -->
+            <a href="#home" class="mente-brand flex items-center group" aria-label="MenteAberta, voltar ao início">
+                <img src="./assets/menteaberta-logo.png" class="mente-brand-logo" alt="MenteAberta — cuidado, escuta e acolhimento" width="266" height="65">
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="mente-desktop-nav hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Navegação principal">
+                <a href="#home" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Início</a>
+                <a href="#novel" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Histórias 3D</a>
+                <a href="#bia-chat" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Bia • Chat
+                </a>
+                <a href="#comunidade" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Bloquinhos</a>
+                <a href="#diario" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Diário</a>
+                <a href="#blog" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Blog</a>
+                <a href="#enfermagem" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Enfermagem</a>
+                <a href="#voluntariado" class="px-3.5 py-2 rounded-2xl text-sm font-semibold text-slate-600 hover:text-indigo-700 hover:bg-indigo-50 transition">Voluntários</a>
+            </nav>
+
+            <!-- Ações Rápidas & Botão Pitch -->
+            <div class="mente-header-actions flex items-center gap-3">
+                <button onclick="openPitchModal()" class="mente-pitch-button bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold px-4 py-2.5 rounded-2xl shadow-lg shadow-indigo-200 text-sm flex items-center gap-2 transition transform active:scale-95">
+                    <i class="fa-solid fa-award"></i>
+                    <span>Pitch Jurados</span>
+                </button>
+
+                <!-- Menu Mobile Trigger -->
+                <button id="menu-toggle" type="button" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false" onclick="toggleMobileMenu()" class="mente-menu-toggle lg:hidden p-2.5 rounded-2xl bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition">
+                    <i class="fa-solid fa-bars text-lg" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <nav id="mobile-menu" aria-label="Menu do celular" class="mente-mobile-menu hidden lg:hidden bg-white border-b border-indigo-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <a href="#home" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Início</a>
+            <a href="#novel" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Histórias 3D (Visual Novel)</a>
+            <a href="#bia-chat" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Conversar com a Bia</a>
+            <a href="#comunidade" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Bloquinhos de Apoio Mútuo</a>
+            <a href="#diario" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Diário de Emoções</a>
+            <a href="#blog" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Blog educativo</a>
+            <a href="#enfermagem" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Plantão de Enfermagem</a>
+            <a href="#voluntariado" onclick="toggleMobileMenu(false)" class="block px-3 py-2 rounded-xl text-base font-semibold text-slate-700 hover:bg-indigo-50">Voluntariado acadêmico (proposta)</a>
+            <button type="button" onclick="toggleMobileMenu(false);openPitchModal()" class="mente-pitch-mobile w-full text-left px-3 py-2 rounded-xl text-base font-semibold text-indigo-700 hover:bg-indigo-50">Pitch para jurados</button>
+        </nav>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-grow">
+
+        <!-- 1. HERO COM ESTÉTICA DISNEY / 3D ENCANTADOR -->
+        <section id="home" class="relative overflow-hidden disney-hero-gradient py-20 sm:py-28 border-b border-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center gap-2 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full text-purple-700 text-xs sm:text-sm font-bold shadow-md border border-purple-100 floating-animation">
+                            <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i>
+                            <span>Magia e Empatia no Cuidado Emocional Juvenil</span>
+                        </div>
+                        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            Um refúgio mágico para cuidar da sua <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">saúde mental</span>.
+                        </h2>
+                        <p class="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                            O <strong class="text-slate-900">MenteAberta</strong> combina histórias inspiradoras estilo animação 3D, conversas profundas com a assistente <strong class="text-indigo-600">Bia</strong>, comunidade moderada e uma proposta de extensão universitária.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#bia-chat" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-2xl shadow-xl shadow-indigo-300 transition duration-300 flex items-center gap-2.5">
+                                <i class="fa-solid fa-comments text-lg"></i>
+                                <span>Conversar com a Bia</span>
+                            </a>
+                            <a href="#voluntariado" class="bg-white hover:bg-slate-50 text-slate-800 border-2 border-indigo-100 font-bold px-8 py-4 rounded-2xl shadow-lg transition duration-300 flex items-center gap-2.5">
+                                <i class="fa-solid fa-graduation-cap text-purple-600 text-lg"></i>
+                                <span>Conheça o Voluntariado</span>
+                            </a>
+                        </div>
+                        <!-- Badges Informativos -->
+                        <div class="pt-6 border-t border-indigo-100/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-600 font-bold">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-shield-heart text-pink-500 text-base"></i>
+                                <span>Demonstração educativa</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-certificate text-purple-500 text-base"></i>
+                                <span>Voluntariado em planejamento</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-phone-volume text-red-500 text-base"></i>
+                                <span>CVV 188 24h</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cartão Ilustrado 3D / Disney Style -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-md">
+                            <div class="absolute -inset-4 bg-gradient-to-tr from-purple-400/40 to-pink-400/40 rounded-[2.5rem] blur-2xl opacity-70 animate-pulse"></div>
+                            <div class="relative bg-white/95 backdrop-blur-xl p-8 rounded-[2.5rem] disney-card-shadow border border-indigo-100 space-y-6">
+                                <div class="flex items-center justify-between pb-4 border-b border-indigo-50">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white flex items-center justify-center shadow-md">
+                                            <img class="mente-avatar" src="./assets/bia.webp" alt="Bia" style="border-radius:16px">
+                                        </div>
+                                        <div>
+                                            <h4 class="font-extrabold text-slate-900 text-lg">Bia • Assistente Virtual</h4>
+                                            <p class="text-xs text-emerald-600 font-bold flex items-center gap-1.5">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span> Pronta para te ouvir
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs bg-purple-100 text-purple-700 font-extrabold px-3 py-1 rounded-full">Magia 3D</span>
+                                </div>
+                                <div class="bg-gradient-to-br from-indigo-50/80 to-purple-50/80 p-5 rounded-3xl text-slate-700 text-sm leading-relaxed border border-indigo-100/50">
+                                    <p class="font-bold text-indigo-900 mb-1"><i class="fa-solid fa-sparkles text-amber-500 mr-1.5"></i> Acolhimento Real:</p>
+                                    "Cada sentimento importa. Conte comigo para desabafar, organizar seus pensamentos e encontrar caminhos de paz hoje."
+                                </div>
+                                <div class="grid grid-cols-3 gap-3 text-center">
+                                    <div class="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                        <div class="text-2xl font-black text-indigo-600">3D</div>
+                                        <div class="text-[11px] text-slate-600 font-bold">Estilo Disney</div>
+                                    </div>
+                                    <div class="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                        <div class="text-2xl font-black text-emerald-600">188</div>
+                                        <div class="text-[11px] text-slate-600 font-bold">Apoio CVV</div>
+                                    </div>
+                                    <div class="p-3.5 bg-indigo-50/50 rounded-2xl border border-indigo-100">
+                                        <div class="text-2xl font-black text-purple-600">Jovens</div>
+                                        <div class="text-[11px] text-slate-600 font-bold">Extensão</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. VISUAL NOVEL (JOGO DE ESCOLHAS - ESTILO ANIMAÇÃO) -->
+        <section id="novel" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-purple-700 font-extrabold text-sm uppercase tracking-wider bg-purple-100 px-4 py-1.5 rounded-full">Visual Novel Interativa</span>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Jornadas Inspiradas em Histórias Reais</h3>
+                <p class="text-slate-600 text-base sm:text-lg font-medium">
+                    Viva os dilemas de Leo, Sofia e Lucas. Tome decisões cotidianas e descubra reflexões profundas sobre autocuidado e resiliência emocional.
+                </p>
+            </div>
+
+            <!-- Cards dos Personagens -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Leo -->
+                <div class="bg-white rounded-[2.5rem] p-7 disney-card-shadow border border-indigo-100 flex flex-col justify-between hover:border-indigo-300 transition-all duration-300 group">
+                    <div>
+                        <div class="w-full h-52 rounded-3xl bg-gradient-to-tr from-blue-100 via-indigo-100 to-purple-100 flex items-center justify-center mb-6 relative overflow-hidden group-hover:scale-[1.02] transition">
+                            <div class="absolute inset-0 bg-indigo-500/10 backdrop-blur-[2px]"></div>
+                            <img src="./assets/leo.webp" alt="Leo, personagem da história sobre ansiedade e provas" loading="lazy" class="mente-portrait relative z-10" style="max-height:208px;border-radius:22px;">
+                            <span class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md text-indigo-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-sm">Ansiedade & Estudos</span>
+                        </div>
+                        <h4 class="text-2xl font-extrabold text-slate-900 mb-2">Leo, 17 anos</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
+                            Enfrentando o peso da preparação para o vestibular e noites mal dormidas devido à autocobrança excessiva.
+                        </p>
+                    </div>
+                    <button onclick="openNovelModal('Leo')" class="w-full bg-indigo-50 hover:bg-indigo-600 text-indigo-700 hover:text-white font-bold py-3.5 rounded-2xl transition text-sm flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-play"></i> Iniciar História do Leo
+                    </button>
+                </div>
+
+                <!-- Sofia -->
+                <div class="bg-white rounded-[2.5rem] p-7 disney-card-shadow border border-indigo-100 flex flex-col justify-between hover:border-pink-300 transition-all duration-300 group">
+                    <div>
+                        <div class="w-full h-52 rounded-3xl bg-gradient-to-tr from-pink-100 via-purple-100 to-rose-100 flex items-center justify-center mb-6 relative overflow-hidden group-hover:scale-[1.02] transition">
+                            <div class="absolute inset-0 bg-pink-500/10 backdrop-blur-[2px]"></div>
+                            <img src="./assets/sofia.webp" alt="Sofia, personagem da história sobre autoestima" loading="lazy" class="mente-portrait relative z-10" style="max-height:208px;border-radius:22px;">
+                            <span class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md text-pink-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-sm">Autoestima & Imagem</span>
+                        </div>
+                        <h4 class="text-2xl font-extrabold text-slate-900 mb-2">Sofia, 16 anos</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
+                            Lutando contra comparações nas redes sociais e buscando aceitação própria em meio a padrões irreais.
+                        </p>
+                    </div>
+                    <button onclick="openNovelModal('Sofia')" class="w-full bg-pink-50 hover:bg-pink-600 text-pink-700 hover:text-white font-bold py-3.5 rounded-2xl transition text-sm flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-play"></i> Iniciar História da Sofia
+                    </button>
+                </div>
+
+                <!-- Lucas -->
+                <div class="bg-white rounded-[2.5rem] p-7 disney-card-shadow border border-indigo-100 flex flex-col justify-between hover:border-emerald-300 transition-all duration-300 group">
+                    <div>
+                        <div class="w-full h-52 rounded-3xl bg-gradient-to-tr from-emerald-100 via-teal-100 to-indigo-100 flex items-center justify-center mb-6 relative overflow-hidden group-hover:scale-[1.02] transition">
+                            <div class="absolute inset-0 bg-emerald-500/10 backdrop-blur-[2px]"></div>
+                            <img src="./assets/lucas.webp" alt="Lucas, personagem da história sobre relações familiares" loading="lazy" class="mente-portrait relative z-10" style="max-height:208px;border-radius:22px;">
+                            <span class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-md text-emerald-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full shadow-sm">Solidão & Família</span>
+                        </div>
+                        <h4 class="text-2xl font-extrabold text-slate-900 mb-2">Lucas, 18 anos</h4>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6 font-medium">
+                            Sentindo-se isolado após conflitos domésticos e guardando emoções intensas sem saber com quem conversar.
+                        </p>
+                    </div>
+                    <button onclick="openNovelModal('Lucas')" class="w-full bg-emerald-50 hover:bg-emerald-600 text-emerald-700 hover:text-white font-bold py-3.5 rounded-2xl transition text-sm flex items-center justify-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-play"></i> Iniciar História do Lucas
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ASSISTENTE VIRTUAL "BIA" INTELIGENTE, EMPÁTICA E REALISTA -->
+        <section id="bia-chat" class="py-24 bg-gradient-to-b from-indigo-50/60 to-white border-y border-indigo-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-4 py-1.5 rounded-full">Conversa Acolhedora • Respostas Programadas</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Conversar com a Assistente Bia</h3>
+                    <p class="text-slate-600 text-sm sm:text-base font-medium">
+                        Converse sobre sentimentos, escola ou amizades. A Bia é uma personagem virtual com respostas programadas; não é uma pessoa, não realiza atendimento psicológico e não substitui ajuda profissional.
+                    </p>
+                </div>
+
+                <!-- Janela do Chat Estilo Disney -->
+                <div class="mente-chat-window bg-white rounded-[2.5rem] disney-card-shadow border border-indigo-100 overflow-hidden flex flex-col h-[560px]">
+                    <!-- Chat Header -->
+                    <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 px-6 py-5 flex items-center justify-between text-white">
+                        <div class="flex items-center gap-3.5">
+                            <div class="relative">
+                                <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center font-bold text-xl shadow-inner">
+                                    <img class="mente-avatar" src="./assets/bia.webp" alt="" style="border-radius:14px">
+                                </div>
+                                <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-indigo-600 rounded-full"></span>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-lg">Bia — Conversa acolhedora</h4>
+                                <p class="text-xs text-indigo-200 font-medium">Assistente com respostas programadas</p>
+                            </div>
+                        </div>
+                        <button onclick="clearChat()" class="text-xs bg-white/10 hover:bg-white/20 px-3.5 py-2 rounded-xl transition text-indigo-100 font-bold backdrop-blur-sm">
+                            Reiniciar Conversa
+                        </button>
+                    </div>
+
+                    <!-- Alerta de Segurança / Crise -->
+                    <div id="crisis-banner" class="hidden bg-red-50 border-b border-red-200 p-4 text-red-800 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-between gap-3 animate-pulse">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-triangle-exclamation text-red-600 text-xl flex-shrink-0"></i>
+                            <div>
+                                <span class="font-extrabold">Precisa de ajuda?</span> A Bia não consegue avaliar riscos nem prestar socorro. Se houver perigo, procure ajuda presencial e serviços de emergência. Ligue 192 (SAMU), 190 (Polícia) ou 188 (CVV) para apoio emocional.
+                            </div>
+                        </div>
+                        <a href="tel:188" class="bg-red-600 hover:bg-red-700 text-white font-extrabold px-4 py-2.5 rounded-xl shadow-md text-xs whitespace-nowrap flex items-center gap-2 transition">
+                            <i class="fa-solid fa-phone"></i> Ligar 188 (CVV)
+                        </a>
+                    </div>
+
+                    <!-- Chat Messages Container -->
+                    <div id="chat-messages" class="mente-chat-messages flex-grow p-6 overflow-y-auto space-y-4 bg-slate-50/70" role="log" aria-label="Mensagens da Bia" aria-live="polite">
+                        <div class="flex items-start gap-3">
+                            <div class="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center flex-shrink-0 text-sm font-bold shadow-md">
+                                <img class="mente-avatar" src="./assets/bia.webp" alt="" style="border-radius:14px">
+                            </div>
+                            <div class="bg-white p-4.5 rounded-3xl rounded-tl-sm shadow-sm border border-indigo-50 text-slate-700 text-sm max-w-[82%] leading-relaxed font-medium">
+                                Olá! Sou a <strong>Bia</strong>. Estou aqui de coração aberto para conversar com você sobre qualquer coisa: seja ansiedade, escola, família ou apenas para um desabafo. Como você está se sentindo neste momento? 💙
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bia-choice-bar" class="mente-choice-bar px-4 py-2 bg-slate-50 flex flex-wrap gap-2 border-t border-indigo-50" aria-label="Sugestões para continuar a conversa"></div>
+                    <div id="bia-typing" class="mente-typing hidden" role="status" aria-live="polite">Bia está preparando uma resposta<span class="mente-typing-dots">…</span></div>
+                    <!-- Chat Input -->
+                    <div class="mente-chat-input-row p-4 sm:p-5 bg-white border-t border-indigo-50 flex items-center gap-3">
+                        <input type="text" maxlength="500" autocomplete="off" id="chat-input" placeholder="Digite sua mensagem para a Bia..." class="flex-grow bg-slate-100 border border-slate-200 rounded-2xl px-5 py-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium transition">
+                        <button type="button" aria-label="Enviar mensagem" onclick="sendMessage()" class="mente-chat-send bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-3.5 rounded-2xl shadow-lg shadow-indigo-200 font-bold text-sm transition flex items-center justify-center">
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <p class="mente-info mt-4">Esta versão usa mensagens programadas. Não é atendimento clínico nem serviço de emergência. Evite compartilhar dados íntimos ou identificáveis.</p>
+                <!-- Inícios variados para demonstrar a compreensão contextual -->
+                <div class="mente-starter-wrap mt-4">
+                    <span class="text-xs text-slate-500 font-bold mr-1">Experimente começar de jeitos diferentes:</span>
+                    <div class="mente-starter-list">
+                        <button onclick="sendQuickMessage('Oi, Bia!')">Oi, Bia!</button>
+                        <button onclick="sendQuickMessage('Oi, tudo bem?')">Oi, tudo bem?</button>
+                        <button onclick="sendQuickMessage('Oi, estou mal hoje')">Oi, estou mal</button>
+                        <button onclick="sendQuickMessage('Oi, quero estudar')">Oi, quero estudar</button>
+                        <button onclick="sendQuickMessage('Tenho prova amanhã e estou nervoso')">Tenho prova amanhã</button>
+                        <button onclick="sendQuickMessage('Não consigo me concentrar')">Não consigo me concentrar</button>
+                        <button onclick="sendQuickMessage('Me sinto sozinho')">Me sinto sozinho</button>
+                        <button onclick="sendQuickMessage('Quero desabafar')">Quero desabafar</button>
+                        <button onclick="sendQuickMessage('Hoje estou muito feliz!')">Hoje estou feliz</button>
+                        <button onclick="sendQuickMessage('Quero mudar de assunto')">Mudar de assunto</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. BLOQUINHOS DE APOIO MÚTUO (FEED ANÔNIMO) -->
+        <section id="comunidade" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-purple-700 font-extrabold text-sm uppercase tracking-wider bg-purple-100 px-4 py-1.5 rounded-full">Rede de Apoio Comunitário</span>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Bloquinhos de Apoio Mútuo</h3>
+                <p class="text-slate-600 text-base font-medium">
+                    Compartilhe sentimentos usando uma assinatura de sua escolha e apoie outros jovens. Relatos passam pela administração antes da publicação.
+                </p>
+            </div>
+
+            <!-- Filtros de Canais -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
+                <button onclick="filterFeed('todos')" id="btn-cat-todos" class="category-btn bg-indigo-600 text-white px-5 py-3 rounded-2xl text-sm font-bold shadow-md transition">Todos os Relatos</button>
+                <button onclick="filterFeed('#Ansiedade')" id="btn-cat-Ansiedade" class="category-btn bg-white text-slate-700 border border-slate-200 hover:bg-indigo-50 px-5 py-3 rounded-2xl text-sm font-bold transition">#Ansiedade</button>
+                <button onclick="filterFeed('#Bullying')" id="btn-cat-Bullying" class="category-btn bg-white text-slate-700 border border-slate-200 hover:bg-indigo-50 px-5 py-3 rounded-2xl text-sm font-bold transition">#Bullying</button>
+                <button onclick="filterFeed('#Autoestima')" id="btn-cat-Autoestima" class="category-btn bg-white text-slate-700 border border-slate-200 hover:bg-indigo-50 px-5 py-3 rounded-2xl text-sm font-bold transition">#Autoestima</button>
+                <button onclick="filterFeed('#Família')" id="btn-cat-Família" class="category-btn bg-white text-slate-700 border border-slate-200 hover:bg-indigo-50 px-5 py-3 rounded-2xl text-sm font-bold transition">#Família</button>
+            </div>
+
+            <p class="mente-info max-w-3xl mx-auto mb-6">Os relatos aprovados são públicos. Entre para publicar e apoiar. Não inclua nomes reais, contatos ou dados que identifiquem você ou outras pessoas. Sua conta fica vinculada ao relato no banco, mas o e-mail não é exibido na comunidade.</p>
+            <!-- Formulário Novo Relato -->
+            <div class="bg-white rounded-[2.5rem] p-7 sm:p-9 disney-card-shadow border border-indigo-100 max-w-3xl mx-auto mb-12">
+                <h4 class="font-extrabold text-lg text-slate-900 mb-5 flex items-center gap-2.5">
+                    <i class="fa-solid fa-feather-pointed text-indigo-600"></i> Compartilhar Relato ou Mensagem de Apoio
+                </h4>
+                <form id="post-form" onsubmit="handleNewPost(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="post-category" class="block text-xs font-bold text-slate-600 mb-1.5">Canal Temático</label>
+                            <select id="post-category" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="#Ansiedade">#Ansiedade</option>
+                                <option value="#Bullying">#Bullying</option>
+                                <option value="#Autoestima">#Autoestima</option>
+                                <option value="#Família">#Família</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="post-author" class="block text-xs font-bold text-slate-600 mb-1.5">Assinatura Anônima</label>
+                            <input type="text" id="post-author" maxlength="60" placeholder="Ex: Jovem Anônimo(a)" value="Jovem Anônimo(a)" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="post-content" class="block text-xs font-bold text-slate-600 mb-1.5">Sua Mensagem</label>
+                        <textarea id="post-content" maxlength="900" minlength="1" rows="3" placeholder="Escreva aqui com empatia e respeito..." required class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold px-7 py-3.5 rounded-2xl shadow-lg shadow-indigo-200 text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Publicar no Bloquinho
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Feed Container -->
+            <div id="feed-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <!-- Preenchido via JS -->
+            </div>
+        </section>
+
+        <!-- 5. DIÁRIO DE EMOÇÕES -->
+        <section id="diario" class="py-24 bg-gradient-to-b from-white to-indigo-50/50 border-t border-indigo-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
+                    <span class="bg-pink-100 text-pink-800 text-xs font-extrabold px-4 py-1.5 rounded-full">Check-in Emocional Diário</span>
+                    <h3 class="text-3xl font-extrabold text-slate-900">Diário de Emoções</h3>
+                    <p class="text-slate-600 text-sm sm:text-base font-medium">
+                        Como você está se sentindo hoje? Registre seu humor, receba mensagens motivacionais personalizadas e acompanhe sua evolução semanal.
+                    </p>
+                </div>
+
+                <p class="mente-info mb-5 text-center">Seu histórico é salvo na sua conta e acessível somente por você. Os sete registros mais recentes aparecem abaixo. Saia da conta ao usar um dispositivo compartilhado.</p>
+                <div class="bg-white rounded-[2.5rem] p-8 sm:p-10 disney-card-shadow border border-indigo-100 mb-8 text-center">
+                    <h4 class="font-extrabold text-xl text-slate-900 mb-6">Selecione seu sentimento atual:</h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
+                        <button onclick="registerEmotion('Muito Feliz', '😄', 'Incrível! Guarde essa energia mágica e compartilhe sorrisos hoje.')" class="p-5 rounded-3xl border-2 border-slate-100 hover:border-emerald-400 bg-slate-50 hover:bg-emerald-50 transition flex flex-col items-center gap-2.5 group">
+                            <span class="text-4xl group-hover:scale-125 transition-transform">😄</span>
+                            <span class="text-xs font-bold text-slate-700">Muito Feliz</span>
+                        </button>
+                        <button onclick="registerEmotion('Bem', '😊', 'Que ótimo! Continue cultivando hábitos que te fazem bem.')" class="p-5 rounded-3xl border-2 border-slate-100 hover:border-blue-400 bg-slate-50 hover:bg-blue-50 transition flex flex-col items-center gap-2.5 group">
+                            <span class="text-4xl group-hover:scale-125 transition-transform">😊</span>
+                            <span class="text-xs font-bold text-slate-700">Bem</span>
+                        </button>
+                        <button onclick="registerEmotion('Neutro', '😐', 'Dias neutros fazem parte do ciclo. Respire fundo e vá no seu ritmo.')" class="p-5 rounded-3xl border-2 border-slate-100 hover:border-amber-400 bg-slate-50 hover:bg-amber-50 transition flex flex-col items-center gap-2.5 group">
+                            <span class="text-4xl group-hover:scale-125 transition-transform">😐</span>
+                            <span class="text-xs font-bold text-slate-700">Neutro</span>
+                        </button>
+                        <button onclick="registerEmotion('Triste', '😢', 'Está tudo bem não estar bem. Que tal tomar uma água e conversar com a Bia?')" class="p-5 rounded-3xl border-2 border-slate-100 hover:border-purple-400 bg-slate-50 hover:bg-purple-50 transition flex flex-col items-center gap-2.5 group">
+                            <span class="text-4xl group-hover:scale-125 transition-transform">😢</span>
+                            <span class="text-xs font-bold text-slate-700">Triste</span>
+                        </button>
+                        <button onclick="registerEmotion('Ansioso', '😰', 'A ansiedade tenta nos apressar. Inspire em 4s e expire em 4s. Você consegue!')" class="p-5 rounded-3xl border-2 border-slate-100 hover:border-red-400 bg-slate-50 hover:bg-red-50 transition flex flex-col items-center gap-2.5 group col-span-2 sm:col-span-1">
+                            <span class="text-4xl group-hover:scale-125 transition-transform">😰</span>
+                            <span class="text-xs font-bold text-slate-700">Ansioso</span>
+                        </button>
+                    </div>
+
+                    <div id="emotion-feedback" class="hidden bg-indigo-50 border border-indigo-100 p-6 rounded-3xl text-indigo-900 text-sm font-medium leading-relaxed">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] p-7 sm:p-9 disney-card-shadow border border-indigo-100">
+                    <h5 class="font-extrabold text-base text-slate-900 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-indigo-600"></i> Últimos registros emocionais
+                    </h5>
+                    <div id="emotion-history" class="grid grid-cols-2 sm:grid-cols-7 gap-3 text-center">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. PLANTÃO DE ENFERMAGEM -->
+        <section id="enfermagem" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-emerald-700 font-extrabold text-sm uppercase tracking-wider bg-emerald-100 px-4 py-1.5 rounded-full">Gestão do Cuidado</span>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Plantão de Enfermagem em Saúde Mental</h3>
+                <p class="text-slate-600 text-base font-medium">
+                    Entenda o papel essencial do enfermeiro na escuta ativa, acolhimento humanizado e triagem clínica de suporte.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-[2.5rem] p-8 disney-card-shadow border border-indigo-100 space-y-4">
+                    <div class="w-16 h-16 rounded-3xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl font-extrabold shadow-sm">
+                        <i class="fa-solid fa-ear-listen"></i>
+                    </div>
+                    <h4 class="text-xl font-extrabold text-slate-900">Escuta Ativa & Humanizada</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed font-medium">
+                        O enfermeiro atua como o primeiro ponto de acolhimento seguro, validando as emoções do estudante sem julgamentos.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] p-8 disney-card-shadow border border-indigo-100 space-y-4">
+                    <div class="w-16 h-16 rounded-3xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl font-extrabold shadow-sm">
+                        <i class="fa-solid fa-notes-medical"></i>
+                    </div>
+                    <h4 class="text-xl font-extrabold text-slate-900">Triagem de Risco</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed font-medium">
+                        Identificação precoce de vulnerabilidades emocionais e encaminhamento ágil para redes de apoio ou atendimento clínico.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-[2.5rem] p-8 disney-card-shadow border border-indigo-100 space-y-4">
+                    <div class="w-16 h-16 rounded-3xl bg-purple-100 text-purple-600 flex items-center justify-center text-3xl font-extrabold shadow-sm">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
+                    <h4 class="text-xl font-extrabold text-slate-900">Educação em Saúde</h4>
+                    <p class="text-slate-600 text-sm leading-relaxed font-medium">
+                        Orientações práticas sobre higiene do sono, manejo do estresse acadêmico e prevenção ao esgotamento mental.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BLOG EDUCATIVO: complementa a estrutura original -->
+        <section id="blog" class="py-24 bg-gradient-to-b from-indigo-50/60 to-white border-y border-indigo-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                    <span class="text-purple-700 font-extrabold text-sm uppercase tracking-wider bg-purple-100 px-4 py-1.5 rounded-full">Biblioteca MenteAberta</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Conversas que começam com informação</h3>
+                    <p class="text-slate-600 text-base">Textos educativos curtos para refletir sobre emoções e relações. Conteúdos ilustrativos, sujeitos a revisão antes da publicação oficial.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <article class="mente-blog-card bg-white rounded-[2.5rem] disney-card-shadow border border-indigo-100 flex flex-col">
+                        <img src="./assets/blog-ansiedade.webp" loading="lazy" alt="Jovem estudando com materiais espalhados">
+                        <div class="p-7 flex-grow flex flex-col"><span class="text-xs font-extrabold text-purple-700 mb-2">ESCOLA & ANSIEDADE</span><h4 class="text-xl font-extrabold text-slate-900 mb-2">Antes da prova, como acalmar a mente?</h4><p class="text-slate-600 text-sm leading-relaxed flex-grow">Organize tarefas pequenas e aprenda a perceber quando é hora de pedir apoio.</p><button onclick="openBlogArticle(0)" class="mt-4 text-left text-indigo-700 font-extrabold">Ler o artigo →</button></div>
+                    </article>
+                    <article class="mente-blog-card bg-white rounded-[2.5rem] disney-card-shadow border border-indigo-100 flex flex-col">
+                        <img src="./assets/blog-bullying.webp" loading="lazy" alt="Adolescente sozinho no corredor da escola">
+                        <div class="p-7 flex-grow flex flex-col"><span class="text-xs font-extrabold text-pink-700 mb-2">AMIZADE & PERTENCIMENTO</span><h4 class="text-xl font-extrabold text-slate-900 mb-2">O que fazer quando você se sente excluído?</h4><p class="text-slate-600 text-sm leading-relaxed flex-grow">Entenda sentimentos e procure relações respeitosas e apoio confiável.</p><button onclick="openBlogArticle(1)" class="mt-4 text-left text-indigo-700 font-extrabold">Ler o artigo →</button></div>
+                    </article>
+                    <article class="mente-blog-card bg-white rounded-[2.5rem] disney-card-shadow border border-indigo-100 flex flex-col">
+                        <img src="./assets/blog-amizade.webp" loading="lazy" alt="Três jovens sorrindo juntos">
+                        <div class="p-7 flex-grow flex flex-col"><span class="text-xs font-extrabold text-emerald-700 mb-2">AUTOESTIMA & CUIDADO</span><h4 class="text-xl font-extrabold text-slate-900 mb-2">O que você vê nas redes é só um recorte</h4><p class="text-slate-600 text-sm leading-relaxed flex-grow">Comparações, filtros e ideias para se relacionar melhor consigo.</p><button onclick="openBlogArticle(2)" class="mt-4 text-left text-indigo-700 font-extrabold">Ler o artigo →</button></div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. VOLUNTARIADO UNIVERSITÁRIO COM QUESTIONÁRIO, DECLARAÇÃO E CERTIFICADO -->
+        <section id="voluntariado" class="py-24 bg-gradient-to-b from-indigo-50/60 to-white border-t border-indigo-100">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-white rounded-[2.5rem] disney-card-shadow border border-indigo-100 p-8 sm:p-12 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-indigo-200/50 to-purple-200/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                    <div class="relative z-10 space-y-8">
+                        <div class="text-center max-w-2xl mx-auto space-y-3">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-extrabold px-4 py-1.5 rounded-full">Proposta de extensão universitária</span>
+                            <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Cadastro de Voluntários Universitários</h3>
+                            <p class="text-slate-600 text-sm sm:text-base font-medium">
+                                Participe como ouvinte voluntário, colabore com a saúde mental de estudantes e conheça a proposta de atividades voluntárias supervisionadas!
+                            </p>
+                        </div>
+
+                        <p class="mente-info">Envie sua candidatura para análise da administração. Seus dados e comprovante ficam privados. Participação, supervisão e emissão de certificados dependem de validação institucional.</p>
+                        <!-- Formulário Rigoroso de Cadastro de Voluntário -->
+                        <form id="volunteer-form" onsubmit="handleVolunteerSubmit(event)" class="space-y-6">
+                            <!-- Bloco 1: Dados Pessoais & Acadêmicos -->
+                            <div class="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-indigo-50 space-y-4">
+                                <h4 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-id-card text-indigo-600"></i> 1. Identificação Acadêmica
+                                </h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="vol-name" class="block text-xs font-bold text-slate-600 mb-1.5">Nome Completo</label>
+                                        <input type="text" id="vol-name" maxlength="120" minlength="3" placeholder="Seu nome completo" required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label for="vol-email" class="block text-xs font-bold text-slate-600 mb-1.5">E-mail Institucional (UNINASSAU)</label>
+                                        <input type="email" id="vol-email" placeholder="seu.email@aluno.uninassau.edu.br" required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                    <div>
+                                        <label for="vol-course" class="block text-xs font-bold text-slate-600 mb-1.5">Curso Superior</label>
+                                        <input type="text" id="vol-course" maxlength="100" minlength="2" placeholder="Ex: Enfermagem, Psicologia..." required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label for="vol-matricula" class="block text-xs font-bold text-slate-600 mb-1.5">Matrícula</label>
+                                        <input type="text" id="vol-matricula" maxlength="60" minlength="2" placeholder="Ex: 202612345" required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                    <div>
+                                        <label for="vol-periodo" class="block text-xs font-bold text-slate-600 mb-1.5">Período Atual</label>
+                                        <input type="text" id="vol-periodo" maxlength="40" minlength="1" placeholder="Ex: 4º Período" required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="vol-file" class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center justify-between">
+                                        <span>Comprovante / Declaração de Matrícula (PDF ou Imagem)</span>
+                                        <span class="text-[11px] text-purple-600 font-extrabold">PDF, JPG, PNG ou WebP · até 5 MB</span>
+                                    </label>
+                                    <input type="file" id="vol-file" accept=".pdf,.jpg,.jpeg,.png,.webp" required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3 text-sm font-medium file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition">
+                                </div>
+                            </div>
+
+                            <!-- Bloco 2: Questionário Motivacional Obrigatório -->
+                            <div class="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-indigo-50 space-y-4">
+                                <h4 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-clipboard-question text-purple-600"></i> 2. Questionário Motivacional & Análise de Perfil
+                                </h4>
+                                <div>
+                                    <label for="q1" class="block text-xs font-bold text-slate-600 mb-1.5">Por que você deseja fazer parte do projeto MenteAberta como voluntário?</label>
+                                    <textarea id="q1" maxlength="3000" minlength="10" rows="3" placeholder="Descreva sua motivação pessoal e acadêmica..." required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q2" class="block text-xs font-bold text-slate-600 mb-1.5">Qual é a sua disponibilidade semanal estimada para dedicar-se às atividades do projeto?</label>
+                                    <select id="q2" class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                        <option value="2 a 4 horas semanais">2 a 4 horas semanais</option>
+                                        <option value="5 a 8 horas semanais">5 a 8 horas semanais</option>
+                                        <option value="Mais de 8 horas semanais">Mais de 8 horas semanais</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="q3" class="block text-xs font-bold text-slate-600 mb-1.5">Você possui alguma experiência prévia ou afinidade com escuta ativa, apoio humanizado ou projetos sociais?</label>
+                                    <textarea id="q3" maxlength="3000" minlength="3" rows="2" placeholder="Conte brevemente (ou informe se é sua primeira experiência)..." required class="w-full bg-white border border-slate-200 rounded-2xl px-4.5 py-3.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Bloco 3: Regras e Prazos do Certificado -->
+                            <div class="bg-purple-50/80 p-6 rounded-3xl border border-purple-100 space-y-3 text-xs sm:text-sm text-purple-900">
+                                <h5 class="font-extrabold text-base flex items-center gap-2">
+                                    <i class="fa-solid fa-award text-purple-700"></i> Proposta de critérios (dependente de aprovação institucional)
+                                </h5>
+                                <p class="leading-relaxed font-medium">
+                                    • <strong>Carga horária:</strong> a ser definida e validada pela instituição responsável.<br>
+                                    • <strong>Candidaturas:</strong> recebidas para análise da administração. Aprovação não garante certificado; a emissão depende da validação institucional.
+                                </p>
+                            </div>
+
+                            <!-- Botão Enviar -->
+                            <div>
+                                <button type="submit" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 hover:opacity-95 text-white font-extrabold py-4 rounded-2xl shadow-xl shadow-indigo-200 text-base transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i> Enviar candidatura
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Pré-visualização do Modelo do Certificado -->
+                        <div class="mt-12 pt-8 border-t border-indigo-100">
+                            <h4 class="font-extrabold text-slate-900 text-lg mb-4 text-center">Modelo ilustrativo de certificado (sem validade oficial)</h4>
+                            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 p-8 sm:p-10 rounded-[2.5rem] text-white shadow-2xl border-4 border-amber-300/40 relative overflow-hidden">
+                                <div class="absolute top-4 right-4 text-amber-300/20 text-7xl"><i class="fa-solid fa-certificate"></i></div>
+                                <div class="relative z-10 space-y-4 text-center sm:text-left">
+                                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-indigo-800/80 pb-4">
+                                        <span class="text-xs font-bold tracking-widest text-indigo-300 uppercase">Extensão Universitária • UNINASSAU</span>
+                                        <span class="bg-amber-400/20 text-amber-300 text-xs font-extrabold px-3 py-1 rounded-full border border-amber-300/30">Modelo ilustrativo</span>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <h5 class="text-xl sm:text-2xl font-black text-white">Certificado de Participação Voluntária</h5>
+                                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                                            Exemplo de certificado para o(a) estudante <strong class="text-amber-300" id="preview-name">[Nome do Voluntário]</strong> participou, hipoteticamente, do projeto MenteAberta. Carga horária, validação e emissão dependerão da aprovação institucional.
+                                        </p>
+                                    </div>
+                                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+                                        <div>Modelo demonstrativo • Projeto MenteAberta</div>
+                                        <div class="bg-white/10 px-4 py-2 rounded-xl text-amber-300 font-bold">Exemplo sem validade acadêmica</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div>
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                    <div class="w-9 h-9 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold">
+                        <img src="./assets/menteaberta-simbolo.png" alt="" class="w-9 h-9 rounded-xl">
+                    </div>
+                    <span class="text-white font-extrabold text-lg">MenteAberta</span>
+                </div>
+                <p class="text-xs text-slate-500 font-medium">Educação emocional e projeto acadêmico em desenvolvimento.</p>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-6 text-sm font-semibold">
+                <a href="#home" class="hover:text-white transition">Início</a>
+                <a href="#novel" class="hover:text-white transition">Histórias</a>
+                <a href="#bia-chat" class="hover:text-white transition">Bia</a>
+                <a href="#blog" class="hover:text-white transition">Blog</a>
+                <a href="#comunidade" class="hover:text-white transition">Bloquinhos</a>
+                <a href="#voluntariado" class="hover:text-white transition">Voluntários</a>
+            </div>
+            <div class="text-xs text-slate-400 font-medium">
+                Apoio CVV: Ligue <strong class="text-white font-extrabold">188</strong> (24h gratuito)
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL PITCH EXECUTIVO -->
+    <div id="pitch-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] max-w-2xl w-full p-7 sm:p-9 disney-card-shadow border border-indigo-100 max-h-[90vh] overflow-y-auto space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-indigo-50">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-extrabold text-xl text-slate-900">Pitch Executivo para Jurados</h4>
+                        <p class="text-xs text-slate-500 font-bold">Resumo acadêmico do projeto</p>
+                    </div>
+                </div>
+                <button onclick="closePitchModal()" class="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4 text-sm text-slate-700 leading-relaxed font-medium">
+                <div>
+                    <h5 class="font-extrabold text-indigo-700 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation"></i> 1. O Problema
+                    </h5>
+                    <p class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        O avanço expressivo de quadros de ansiedade, pressão escolar extrema, distorções de autoimagem e solidão entre jovens, muitas vezes desamparados no cotidiano.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-extrabold text-indigo-700 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb"></i> 2. A Solução (MenteAberta)
+                    </h5>
+                    <p class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        Plataforma digital integrada com Visual Novel lúdica, assistente virtual inteligente ("Bia") com protocolo de crise CVV 188, rede comunitária anônima e plantão de enfermagem.
+                    </p>
+                </div>
+                <div>
+                    <h5 class="font-extrabold text-indigo-700 mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-gears"></i> 3. Metodologia & Voluntariado acadêmico (proposta)
+                    </h5>
+                    <p class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        Proposta de voluntariado com capacitação e supervisão, sujeita à autorização institucional antes de receber inscrições reais.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-indigo-50 flex justify-end">
+                <button onclick="closePitchModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-7 py-3 rounded-2xl shadow-md text-sm transition">
+                    Fechar Pitch
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL VISUAL NOVEL -->
+    <div id="novel-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] max-w-xl w-full p-7 sm:p-9 disney-card-shadow border border-indigo-100 space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-indigo-50">
+                <div class="flex items-center gap-3">
+                    <div id="novel-char-icon" class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xl">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
+                    <div>
+                        <h4 id="novel-title" class="font-extrabold text-xl text-slate-900">Jornada Interativa</h4>
+                        <p class="text-xs text-slate-500 font-bold">MenteAberta 3D</p>
+                    </div>
+                </div>
+                <button onclick="closeNovelModal()" class="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div id="novel-content" class="space-y-4">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </div>
+
+    <div id="blog-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="blog-modal-title">
+        <article class="bg-white rounded-[2.5rem] max-w-2xl w-full p-7 sm:p-9 disney-card-shadow border border-indigo-100 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-start gap-4 border-b border-indigo-50 pb-4 mb-5"><h3 class="text-2xl font-extrabold text-slate-900" id="blog-modal-title">Artigo educativo</h3><button onclick="closeBlogArticle()" class="bg-indigo-50 text-indigo-700 rounded-xl px-4 py-2 font-bold" aria-label="Fechar artigo">✕</button></div>
+            <div id="blog-modal-body" class="text-slate-700 text-sm leading-relaxed space-y-4"></div>
+        </article>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT -->
+    <script src="./assets/bia-conversas.js"></script>
+    <script>
+        function toggleMobileMenu(force) {
+            const menu=document.getElementById('mobile-menu');
+            const btn=document.getElementById('menu-toggle');
+            const icon=document.getElementById('menu-icon');
+            const open=typeof force==='boolean'?force:menu.classList.contains('hidden');
+            menu.classList.toggle('hidden',!open);
+            btn.setAttribute('aria-expanded',String(open));
+            btn.setAttribute('aria-label',open?'Fechar menu':'Abrir menu');
+            icon.className=open?'fa-solid fa-xmark text-lg':'fa-solid fa-bars text-lg';
+        }
+        document.addEventListener('click',event=>{
+            if (!event.target.closest('#mobile-menu')&&!event.target.closest('#menu-toggle')) toggleMobileMenu(false);
+        });
+        document.addEventListener('keydown',event=>{
+            if(event.key==='Escape'&&!document.getElementById('mobile-menu').classList.contains('hidden')){
+                toggleMobileMenu(false);document.getElementById('menu-toggle').focus();
+            }
+        });
+        window.addEventListener('resize',()=>{if(window.innerWidth>1280)toggleMobileMenu(false);});
+
+        function openPitchModal() {
+            document.getElementById('pitch-modal').classList.remove('hidden');
+            document.getElementById('pitch-modal').classList.add('flex');
+        }
+        function closePitchModal() {
+            document.getElementById('pitch-modal').classList.add('hidden');
+            document.getElementById('pitch-modal').classList.remove('flex');
+        }
+
+        // -------------------------------------------------------------
+        // ASSISTENTE VIRTUAL BIA INTELIGENTE E REALISTA
+        // -------------------------------------------------------------
+        // O motor separado mantém contexto de tópico, variações e fases do diálogo.
+        // Nunca envia mensagens ao servidor; ninguém está lendo esta conversa.
+        let biaState=BiaConversas.newSession();
+        let biaBusy=false;
+        let biaTimer=null;
+        function chatAvatar(){return '<img src="./assets/bia.webp" alt="" class="w-9 h-9 rounded-2xl object-cover flex-shrink-0 shadow-md">';}
+        function showBiaOptions(options){
+            const bar=document.getElementById('bia-choice-bar');bar.replaceChildren();
+            const unique=[...new Set(options)].slice(0,5);
+            unique.forEach(option=>{
+                const btn=document.createElement('button');btn.className='mente-option';
+                btn.type='button';btn.textContent=option;
+                btn.addEventListener('click',()=>sendQuickMessage(option));bar.appendChild(btn);
+            });
+        }
+        function sendMessage(){
+            const input=document.getElementById('chat-input');
+            const text=input.value.trim().slice(0,500);
+            if(!text||biaBusy)return;
+            appendChatMessage('user',text);input.value='';biaBusy=true;input.disabled=true;
+            showBiaOptions([]);
+            const typing=document.getElementById('bia-typing');typing.classList.remove('hidden');
+            const result=BiaConversas.answer(biaState,text);
+            const banner=document.getElementById('crisis-banner');
+            banner.classList.toggle('hidden',!['crisis','danger','safety-check'].includes(result.kind));
+            const delay=Math.min(920,Math.max(330,result.text.length*1.6));
+            biaTimer=setTimeout(()=>{
+                typing.classList.add('hidden');
+                appendChatMessage('bia',result.text);
+                showBiaOptions(result.options);
+                biaBusy=false;input.disabled=false;input.focus();biaTimer=null;
+            },delay);
+        }
+        function sendQuickMessage(msg){
+            if(biaBusy)return;
+            document.getElementById('chat-input').value=msg;sendMessage();
+        }
+        function appendChatMessage(sender,text){
+            const container=document.getElementById('chat-messages');
+            const line=document.createElement('div');
+            line.className=`flex items-start gap-3 ${sender==='user'?'justify-end':''}`;
+            if(sender==='user')line.innerHTML=`<div class="bg-indigo-600 text-white p-4 rounded-3xl rounded-tr-sm shadow-sm text-sm max-w-[83%] leading-relaxed font-medium mente-message-text">${escapeHTML(text)}</div><div class="w-9 h-9 rounded-2xl bg-slate-800 text-white flex items-center justify-center flex-shrink-0 text-sm"><i class="fa-solid fa-user"></i></div>`;
+            else line.innerHTML=`${chatAvatar()}<div class="bg-white p-4 rounded-3xl rounded-tl-sm shadow-sm border border-indigo-50 text-slate-700 text-sm max-w-[83%] leading-relaxed font-medium mente-message-text">${escapeHTML(text)}</div>`;
+            container.appendChild(line);container.scrollTop=container.scrollHeight;
+        }
+        function clearChat(){
+            if(biaTimer)clearTimeout(biaTimer);
+            biaTimer=null;biaState=BiaConversas.newSession();biaBusy=false;
+            document.getElementById('chat-input').disabled=false;
+            document.getElementById('bia-typing').classList.add('hidden');
+            const welcome=BiaConversas.welcome();
+            const container=document.getElementById('chat-messages');container.replaceChildren();
+            appendChatMessage('bia',welcome.text);
+            document.getElementById('crisis-banner').classList.add('hidden');
+            showBiaOptions(welcome.options);
+        }
+        document.getElementById('chat-input').addEventListener('keydown',event=>{
+            if(event.key==='Enter'&&!event.isComposing){event.preventDefault();sendMessage();}
+        });
+        clearChat();
+
+        // -------------------------------------------------------------
+        // VISUAL NOVEL MODAL
+        // -------------------------------------------------------------
+        const novelData = {
+            'Leo': {
+                name: 'Leo (Ansiedade & Estudos)',
+                icon: 'fa-book-open-reader',
+                scenario: 'Leo está na véspera de um simulado importante. São 23h30, seu coração está acelerado e ele sente que não estudou o suficiente.',
+                choices: [
+                    { text: 'Virar a madrugada estudando sem dormir.', feedback: '⚠️ Cuidado! A privação de sono prejudica a retenção de memória e eleva drasticamente a ansiedade.' },
+                    { text: 'Fazer 5 minutos de respiração e dormir 7 horas com tranquilidade.', feedback: '✨ Excelente escolha! O descanso é fundamental para o cérebro consolidar o aprendizado e manter o equilíbrio emocional.' }
+                ]
+            },
+            'Sofia': {
+                name: 'Sofia (Autoestima & Imagem)',
+                icon: 'fa-camera-retro',
+                scenario: 'Sofia tirou fotos para postar, mas começou a reparar em detalhes no rosto e quis apagar tudo por achar que não está perfeita.',
+                choices: [
+                    { text: 'Passar horas aplicando filtros pesados para tentar alcançar um padrão irreal.', feedback: '⚠️ Isso alimenta um ciclo exaustivo de comparação. A beleza real vai muito além dos filtros.' },
+                    { text: 'Lembrar que fotos são apenas recortes e fechar o aplicativo para dar uma caminhada.', feedback: '✨ Parabéns! Escolher o autocuidado e afastar-se da pressão estética é um ato de amor próprio.' }
+                ]
+            },
+            'Lucas': {
+                name: 'Lucas (Solidão & Família)',
+                icon: 'fa-house-chimney-user',
+                scenario: 'Lucas teve um desentendimento em casa e está trancado no quarto sentindo um vazio enorme, sem vontade de falar.',
+                choices: [
+                    { text: 'Isolar-se completamente e guardar toda a dor para si.', feedback: '⚠️ O isolamento prolongado intensifica o sofrimento. Conversar com alguém ou usar o chat da Bia ajuda a aliviar.' },
+                    { text: 'Escrever no Diário de Emoções e compartilhar um desabafo anônimo na comunidade.', feedback: '✨ Ótima decisão! Colocar para fora o que sentimos nos conecta com apoio genuíno e acolhimento.' }
+                ]
+            }
+        };
+
+        function openNovelModal(charKey) {
+            const char = novelData[charKey];
+            document.getElementById('novel-title').innerText = char.name;
+            const illustration = {Leo:'leo.webp',Sofia:'sofia.webp',Lucas:'lucas.webp'}[charKey];
+            document.getElementById('novel-char-icon').innerHTML = `<img src="./assets/${illustration}" class="mente-avatar" alt="">`;
+
+            const content = document.getElementById('novel-content');
+            content.innerHTML = `
+                <div class="bg-indigo-50/70 p-4.5 rounded-3xl text-slate-700 text-sm leading-relaxed mb-4 border border-indigo-100 font-medium">
+                    <p class="font-extrabold text-indigo-900 mb-1"><i class="fa-solid fa-book-bookmark mr-1.5"></i> Dilema Diário:</p>
+                    ${char.scenario}
+                </div>
+                <p class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Escolha sua ação:</p>
+                <div class="space-y-3">
+                    <button onclick="handleNovelChoice(0, '${charKey}')" class="w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 hover:bg-indigo-50/50 text-slate-700 text-sm transition font-bold">
+                        A) ${char.choices[0].text}
+                    </button>
+                    <button onclick="handleNovelChoice(1, '${charKey}')" class="w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-indigo-400 bg-slate-50 hover:bg-indigo-50/50 text-slate-700 text-sm transition font-bold">
+                        B) ${char.choices[1].text}
+                    </button>
+                </div>
+                <div id="novel-result" class="hidden mt-4 p-4 rounded-3xl text-sm leading-relaxed font-medium"></div>
+            `;
+            document.getElementById('novel-modal').classList.remove('hidden');
+            document.getElementById('novel-modal').classList.add('flex');
+        }
+
+        function handleNovelChoice(index, charKey) {
+            const char = novelData[charKey];
+            const resultDiv = document.getElementById('novel-result');
+            resultDiv.classList.remove('hidden');
+            if(index === 1) {
+                resultDiv.className = "mt-4 p-4 rounded-3xl text-sm leading-relaxed bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium";
+                resultDiv.innerHTML = `<strong class="font-extrabold block mb-1">✨ Reflexão Inspiradora:</strong> ${char.choices[1].feedback}`;
+            } else {
+                resultDiv.className = "mt-4 p-4 rounded-3xl text-sm leading-relaxed bg-amber-50 border border-amber-200 text-amber-900 font-medium";
+                resultDiv.innerHTML = `<strong class="font-extrabold block mb-1">💡 Alerta Reflexivo:</strong> ${char.choices[0].feedback}`;
+            }
+        }
+
+        function closeNovelModal() {
+            document.getElementById('novel-modal').classList.add('hidden');
+            document.getElementById('novel-modal').classList.remove('flex');
+        }
+
+
+        // -------------------------------------------------------------
+        // VOLUNTARIADO UNINASSAU & ATUALIZAÇÃO DO NOME NO CERTIFICADO
+        // -------------------------------------------------------------
+        document.getElementById('vol-name').addEventListener('input', function(e) {
+            const val = e.target.value.trim();
+            document.getElementById('preview-name').innerText = val ? val : '[Nome do Voluntário]';
+        });
+
+
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        const blogArticles = [
+            {title:'Antes da prova, como acalmar a mente?', paragraphs:[
+                'Aproxima-se uma prova e o pensamento não desacelera? Em situações importantes, é comum sentir alguma ansiedade. Mas a pressão pode ficar pesada quando você tenta resolver tudo de uma vez.',
+                'Experimente escolher uma pequena tarefa por vez. Em vez de “estudar tudo”, escolha revisar um assunto, fazer uma pergunta para alguém ou organizar seu material. Descansar também faz parte da preparação.',
+                'Se a ansiedade interfere no sono, na alimentação ou na sua rotina, vale conversar com alguém de confiança e buscar orientação de um profissional de saúde. Você não precisa esperar a situação piorar.'
+            ],source:'https://www.paho.org/pt/topicos/saude-mental-dos-adolescentes',label:'Saúde mental dos adolescentes — OPAS'},
+            {title:'O que fazer quando você se sente excluído?', paragraphs:[
+                'Ficar de fora de um grupo pode provocar tristeza, raiva e dúvidas sobre si. O que você sente merece atenção, mesmo quando outra pessoa não entende.',
+                'Quando for seguro, você pode explicar o que aconteceu e como se sentiu. Também pode procurar outras amizades e atividades que façam sentido para você. Pertencer não deveria exigir deixar de ser quem você é.',
+                'Se houver humilhação, ameaças ou violência, procure um adulto de confiança, professor ou coordenação escolar. Não é preciso enfrentar essas situações sozinho.'
+            ],source:'https://www.unicef.org/brazil/',label:'UNICEF Brasil — conteúdos para jovens'},
+            {title:'O que você vê nas redes é só um recorte', paragraphs:[
+                'Uma foto ou vídeo costuma mostrar apenas um momento. Iluminação, edição, escolha do ângulo e filtros podem mudar bastante o que aparece. A rotina de alguém é maior que sua publicação.',
+                'Se determinados perfis deixam você se comparando constantemente, perceba como isso afeta seu humor. Fazer uma pausa, silenciar conteúdos e valorizar atividades fora das telas são possibilidades.',
+                'Seu valor envolve relações, habilidades, interesses, experiências e muito mais. Se a comparação está causando sofrimento constante, compartilhar isso com alguém confiável pode ajudar.'
+            ],source:'https://www.unicef.org/brazil/',label:'UNICEF Brasil — bem-estar de adolescentes'}
+        ];
+        function openBlogArticle(index){
+            const a=blogArticles[index]; if(!a)return;
+            document.getElementById('blog-modal-title').textContent=a.title;
+            document.getElementById('blog-modal-body').innerHTML=a.paragraphs.map(p=>`<p>${escapeHTML(p)}</p>`).join('')+`<p class="text-xs text-slate-500 border-t pt-3">Artigo educativo de demonstração. Para continuar lendo: <a class="text-indigo-700 font-bold underline" href="${a.source}" target="_blank" rel="noopener noreferrer">${escapeHTML(a.label)}</a>. Conteúdo sujeito à revisão de profissionais antes de lançamento público.</p>`;
+            const modal=document.getElementById('blog-modal');modal.classList.remove('hidden');modal.classList.add('flex');
+        }
+        function closeBlogArticle(){const modal=document.getElementById('blog-modal');modal.classList.add('hidden');modal.classList.remove('flex');}
+        document.getElementById('blog-modal').addEventListener('click',e=>{if(e.target.id==='blog-modal')closeBlogArticle();});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')closeBlogArticle();});
+
+
+    </script>
+    <script src="./assets/backend-config.js"></script>
+    <script defer src="./assets/backend.bundle.js"></script>
+</body>
+</html>

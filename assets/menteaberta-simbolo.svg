@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="base" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4c62f2"/><stop offset=".55" stop-color="#7854da"/><stop offset="1" stop-color="#b45ad4"/></linearGradient>
+ <linearGradient id="heart" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffc5de"/><stop offset="1" stop-color="#fff1fb"/></linearGradient>
+</defs>
+<rect x="19" y="19" width="474" height="474" rx="141" fill="url(#base)"/>
+<circle cx="396" cy="102" r="42" fill="#ffffff" opacity=".12"/>
+<circle cx="96" cy="380" r="65" fill="#ffffff" opacity=".08"/>
+<!-- white communication bubble, with a short graceful tail -->
+<path d="M126 161 C126 108 174 76 234 76 H288 C364 76 405 126 405 188 V236 C405 304 358 353 286 353 H232 L162 401 L176 337 C143 316 126 280 126 236 Z" fill="#ffffff" opacity=".98"/>
+<!-- slightly offset heart: support, not a literal medical brain -->
+<path d="M269 293 C241 275 199 244 183 218 C162 184 176 157 202 152 C226 148 245 162 257 178 C276 151 297 146 320 151 C356 161 365 197 340 231 C323 256 292 280 269 293 Z" fill="url(#heart)"/>
+<path d="M213 167 C227 166 242 174 257 195 C273 168 290 163 307 165" stroke="#c373d4" stroke-opacity=".56" stroke-width="9" stroke-linecap="round" fill="none"/>
+<circle cx="366" cy="370" r="48" fill="#a9ead8" stroke="#ffffff" stroke-width="14"/>
+<path d="M345 370 l14 14 l27 -29" stroke="#347d79" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

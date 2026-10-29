@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Marca MenteAberta</title>
+  <desc id="desc">Dois balões de conversa unidos em formato de coração aberto com uma pequena estrela.</desc>
+  <defs>
+    <linearGradient id="g" x1="11" y1="12" x2="112" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5265ee"/><stop offset=".52" stop-color="#8060e6"/><stop offset="1" stop-color="#cc65ae"/>
+    </linearGradient>
+    <linearGradient id="p" x1="32" y1="32" x2="91" y2="96" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/><stop offset="1" stop-color="#f7eaff"/>
+    </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%"><feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#43369d" flood-opacity=".18"/></filter>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="34" fill="url(#g)" filter="url(#shadow)"/>
+  <circle cx="101" cy="30" r="15" fill="#ffffff" fill-opacity=".11"/>
+  <circle cx="25" cy="98" r="21" fill="#ffffff" fill-opacity=".08"/>
+  <path d="M64 93c-9-8-32-25-32-43 0-12 9-20 20-20 7 0 12 4 15 9 3-5 8-9 15-9 11 0 20 8 20 20 0 18-23 35-32 43l-3 3-3-3Z" fill="none" stroke="url(#p)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M45 52c5-5 11-5 16 0M83 52c-5-5-11-5-16 0" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+  <path d="M64 69v11" stroke="#fff" stroke-opacity=".88" stroke-width="5" stroke-linecap="round"/>
+  <path d="M90 18v13M83.5 24.5h13" stroke="#fff5cf" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

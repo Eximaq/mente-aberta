@@ -1,0 +1,25 @@
+{
+  "name": "mente-aberta",
+  "version": "1.0.0",
+  "description": "Educação emocional, comunidade moderada e diário privado com Supabase.",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "esbuild src/backend.js --bundle --minify --format=iife --target=es2020 --outfile=assets/backend.bundle.js",
+    "test": "node --test tests/*.cjs",
+    "start": "python -m http.server 4173 --bind 127.0.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "2.118.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "supabase": "2.122.0"
+  },
+  "private": true
+}
