@@ -63,7 +63,7 @@ function installUI() {
           <label>Ação<select id="ma-auth-mode"><option value="login">Entrar</option><option value="signup">Criar conta</option><option value="update" hidden>Alterar minha senha</option></select></label>
           <label id="ma-email-label">E-mail<input id="ma-email" type="email" autocomplete="email" maxlength="254" required></label>
           <label id="ma-password-label">Senha<input id="ma-password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required></label>
-          <label id="ma-consent-label" class="ma-check" hidden><input id="ma-account-consent" type="checkbox">Li a <a href="#" id="ma-privacy-link">Política de Privacidade</a> e concordo com o uso dos dados para os recursos solicitados.</label>
+          <label id="ma-consent-label" class="ma-check" hidden><input id="ma-account-consent" type="checkbox"><span>Li a <a href="#" id="ma-privacy-link">Política de Privacidade</a> e concordo com o uso dos dados para os recursos solicitados.</span></label>
           <p class="ma-note" id="ma-signup-note" hidden>Crie sua conta e entre imediatamente. Guarde sua senha para voltar a acessar seus dados.</p>
           <p id="ma-auth-message" class="ma-message" role="status" hidden></p>
           <button class="ma-button" id="ma-auth-submit" type="submit">Entrar</button>
