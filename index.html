@@ -327,10 +327,10 @@
         <section id="bia-chat" class="py-24 bg-gradient-to-b from-indigo-50/60 to-white border-y border-indigo-100">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-4 py-1.5 rounded-full">Conversa Acolhedora • Respostas Programadas</span>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-extrabold px-4 py-1.5 rounded-full">Conversa Acolhedora • Modo programado ou IA experimental</span>
                     <h3 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Conversar com a Assistente Bia</h3>
                     <p class="text-slate-600 text-sm sm:text-base font-medium">
-                        Converse sobre sentimentos, escola ou amizades. A Bia é uma personagem virtual com respostas programadas; não é uma pessoa, não realiza atendimento psicológico e não substitui ajuda profissional.
+                        Converse sobre sentimentos, escola ou amizades. A Bia é uma assistente virtual. No modo programado, usa respostas preparadas; no modo de IA experimental, envia mensagens ao provedor Groq. Não é uma pessoa, não realiza atendimento psicológico nem substitui ajuda profissional.
                     </p>
                 </div>
 
@@ -380,6 +380,7 @@
                         </div>
                     </div>
 
+                    <div id="bia-ai-switch-slot" class="px-4 py-2 bg-indigo-50/70 border-t border-indigo-100"></div>
                     <div id="bia-choice-bar" class="mente-choice-bar px-4 py-2 bg-slate-50 flex flex-wrap gap-2 border-t border-indigo-50" aria-label="Sugestões para continuar a conversa"></div>
                     <div id="bia-typing" class="mente-typing hidden" role="status" aria-live="polite">Bia está preparando uma resposta<span class="mente-typing-dots">…</span></div>
                     <!-- Chat Input -->
@@ -831,6 +832,8 @@
 
     <!-- SCRIPT JAVASCRIPT -->
     <script src="./assets/bia-conversas.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.0/dist/umd/supabase.js"></script>
+    <script defer src="./assets/bia-ai.js"></script>
     <script>
         function toggleMobileMenu(force) {
             const menu=document.getElementById('mobile-menu');
@@ -883,6 +886,7 @@
             const input=document.getElementById('chat-input');
             const text=input.value.trim().slice(0,500);
             if(!text||biaBusy)return;
+            if(window.MenteAbertaAI?.enabled()){window.MenteAbertaAI.send(text);input.value='';return;}
             appendChatMessage('user',text);input.value='';biaBusy=true;input.disabled=true;
             showBiaOptions([]);
             const typing=document.getElementById('bia-typing');typing.classList.remove('hidden');
@@ -912,6 +916,7 @@
         function clearChat(){
             if(biaTimer)clearTimeout(biaTimer);
             biaTimer=null;biaState=BiaConversas.newSession();biaBusy=false;
+            window.MenteAbertaAI?.reset();
             document.getElementById('chat-input').disabled=false;
             document.getElementById('bia-typing').classList.add('hidden');
             const welcome=BiaConversas.welcome();
