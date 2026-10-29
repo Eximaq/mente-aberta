@@ -24,7 +24,7 @@ function explain(error) {
   const message = error?.message || '';
   if (/Invalid login credentials/i.test(message)) return 'E-mail ou senha incorretos.';
   if (/Email not confirmed/i.test(message)) return 'Confirme seu e-mail antes de entrar.';
-  if (/already registered|already been registered/i.test(message)) return 'Este e-mail já está cadastrado. Entre ou recupere sua senha.';
+  if (/already registered|already been registered/i.test(message)) return 'Este e-mail já está cadastrado. Entre usando a senha dessa conta.';
   if (/rate limit|over_email_send_rate_limit/i.test(message)) return 'Limite temporário de envio de e-mail. Aguarde alguns minutos e tente novamente.';
   if (/invalid|expired/i.test(message) && /token|otp/i.test(message)) return 'Código inválido ou expirado. Solicite um novo código.';
   if (/Failed to fetch|NetworkError|network/i.test(message)) return 'Não foi possível conectar. Confira a internet e tente novamente.';
@@ -60,15 +60,13 @@ function installUI() {
       <div class="ma-dialog"><header><h2 id="ma-auth-title">Sua conta MenteAberta</h2><button class="ma-button secondary" data-close="ma-auth-modal" aria-label="Fechar conta">✕</button></header>
         <p>Entre para manter seu diário privado, acompanhar relatos e enviar sua candidatura.</p>
         <form id="ma-auth-form" class="ma-form">
-          <label>Ação<select id="ma-auth-mode"><option value="login">Entrar</option><option value="signup">Criar conta</option><option value="verify">Confirmar e-mail com código</option><option value="recover">Recuperar senha</option><option value="update">Definir nova senha</option></select></label>
+          <label>Ação<select id="ma-auth-mode"><option value="login">Entrar</option><option value="signup">Criar conta</option><option value="update" hidden>Alterar minha senha</option></select></label>
           <label id="ma-email-label">E-mail<input id="ma-email" type="email" autocomplete="email" maxlength="254" required></label>
           <label id="ma-password-label">Senha<input id="ma-password" type="password" autocomplete="current-password" minlength="8" maxlength="128" required></label>
-          <label id="ma-code-label" hidden>Código recebido por e-mail<input id="ma-code" inputmode="numeric" autocomplete="one-time-code" maxlength="12"></label>
           <label id="ma-consent-label" class="ma-check" hidden><input id="ma-account-consent" type="checkbox">Li a <a href="#" id="ma-privacy-link">Política de Privacidade</a> e concordo com o uso dos dados para os recursos solicitados.</label>
-          <p class="ma-note" id="ma-email-activation">O envio de confirmações está em fase de ativação. Alguns e-mails podem ainda não receber a mensagem.</p>
+          <p class="ma-note" id="ma-signup-note" hidden>Crie sua conta e entre imediatamente. Guarde sua senha para voltar a acessar seus dados.</p>
           <p id="ma-auth-message" class="ma-message" role="status" hidden></p>
           <button class="ma-button" id="ma-auth-submit" type="submit">Entrar</button>
-          <button class="ma-button secondary" id="ma-resend" type="button" hidden>Reenviar confirmação</button>
         </form>
       </div>
     </div>
@@ -76,6 +74,7 @@ function installUI() {
       <div class="ma-dialog"><header><h2 id="ma-profile-title">Minha conta</h2><button class="ma-button secondary" data-close="ma-account-modal" aria-label="Fechar minha conta">✕</button></header>
         <p id="ma-profile-email"></p><div class="ma-tools"><button class="ma-button secondary" id="ma-export">Baixar meus dados</button><button class="ma-button secondary" id="ma-password-change">Alterar senha</button></div>
         <p class="ma-note">Use “Sair” ao terminar em um dispositivo compartilhado.</p>
+        <details id="ma-admin-activation"><summary>Ativar administração do projeto</summary><form id="ma-admin-activation-form" class="ma-form"><label>Código privado de ativação<input id="ma-admin-code" type="password" minlength="32" maxlength="128" autocomplete="off" required></label><p class="ma-note">Somente o responsável pelo projeto recebe esse código. Use a conta do e-mail indicado na configuração.</p><button class="ma-button" type="submit">Ativar administração</button></form></details>
         <div class="ma-danger-zone"><h3>Apagar meus dados</h3><p>Remove seu diário, relatos e candidatura, incluindo o documento enviado. Esta ação não pode ser desfeita.</p>
           <label class="ma-form">Digite APAGAR para confirmar<input id="ma-delete-confirm" autocomplete="off"></label><button class="ma-button danger" id="ma-delete-data">Apagar meus dados</button>
         </div>
@@ -88,7 +87,7 @@ function installUI() {
     </div></div>
     <div class="ma-modal" id="ma-privacy-modal" hidden role="dialog" aria-modal="true" aria-labelledby="ma-privacy-title"><div class="ma-dialog">
       <header><h2 id="ma-privacy-title">Seus dados</h2><button class="ma-button secondary" data-close="ma-privacy-modal" aria-label="Fechar privacidade">✕</button></header>
-      <p>O MenteAberta usa Supabase Auth para seu e-mail e sua senha e um banco de dados na região de São Paulo. A sessão fica neste navegador até você sair. A senha é tratada pelo serviço de autenticação.</p>
+      <p>O MenteAberta usa Supabase Auth para seu e-mail e sua senha e um banco de dados na região de São Paulo. A sessão fica neste navegador até você sair. A senha é tratada pelo serviço de autenticação. Nesta apresentação acadêmica, o cadastro é imediato e não verifica a titularidade do e-mail.</p>
       <p>Seu diário é acessível somente pela sua conta. A conversa com a Bia é programada e fica na memória desta aba; ela não é enviada ao banco.</p>
       <p>Relatos aprovados ficam visíveis publicamente com a assinatura escolhida. Essa assinatura oculta seu e-mail dos leitores, mas o relato continua vinculado à sua conta no banco. Evite nomes reais, contatos e informações que identifiquem outras pessoas.</p>
       <p>Candidaturas e comprovantes são acessíveis pela sua conta e pela administração. Os arquivos ficam em armazenamento privado e são abertos por links que expiram.</p>
@@ -116,12 +115,16 @@ function installUI() {
   $('ma-account').onclick = () => { if (user) { $('ma-profile-email').textContent = user.email; openModal('ma-account-modal'); } else showAuth('login'); };
   $('ma-auth-mode').onchange = configureAuth;
   $('ma-auth-form').onsubmit = handleAuth;
-  $('ma-resend').onclick = event => run('resend', event.target, async () => {
-    if (!$('ma-email').reportValidity()) return;
-    check(await db.auth.resend({type:'signup',email:$('ma-email').value.trim(),options:{emailRedirectTo:location.href.split('#')[0]}}));
-    $('ma-auth-message').textContent = 'Confirmação solicitada. Confira sua caixa de entrada e o spam.';
-    $('ma-auth-message').hidden = false;
-  });
+  $('ma-admin-activation-form').onsubmit = event => {
+    event.preventDefault();
+    run('activate-admin',event.target.querySelector('button'),async () => {
+      if (!requireUser()) return;
+      const activated = check(await db.rpc('activate_administrator',{activation_code:$('ma-admin-code').value.trim()}));
+      $('ma-admin-code').value = '';
+      if (!activated) { notify('Código inválido, já utilizado ou não destinado ao e-mail desta conta.',true); return; }
+      await applySession({user}); notify('Administração ativada para sua conta.');
+    });
+  };
   $('ma-logout').onclick = event => run('logout', event.target, async () => { check(await db.auth.signOut()); notify('Você saiu da conta.'); });
   $('ma-password-change').onclick = () => { closeModal('ma-account-modal'); showAuth('update'); };
   $('ma-privacy-link').onclick = event => { event.preventDefault(); openModal('ma-privacy-modal'); };
@@ -143,14 +146,12 @@ function configureAuth() {
   const mode = $('ma-auth-mode').value;
   $('ma-email-label').hidden = mode === 'update';
   $('ma-email').required = mode !== 'update';
-  $('ma-password-label').hidden = ['verify','recover'].includes(mode);
-  $('ma-password').required = !['verify','recover'].includes(mode);
+  $('ma-password-label').hidden = false;
+  $('ma-password').required = true;
   $('ma-password').autocomplete = mode === 'login' ? 'current-password' : 'new-password';
-  $('ma-code-label').hidden = mode !== 'verify'; $('ma-code').required = mode === 'verify';
   $('ma-consent-label').hidden = mode !== 'signup'; $('ma-account-consent').required = mode === 'signup';
-  $('ma-resend').hidden = mode !== 'verify';
-  $('ma-email-activation').hidden = !['signup','verify','recover'].includes(mode) || config.emailDeliveryReady === true;
-  $('ma-auth-submit').textContent = {login:'Entrar',signup:'Criar minha conta',verify:'Confirmar e entrar',recover:'Enviar recuperação',update:'Salvar nova senha'}[mode];
+  $('ma-signup-note').hidden = mode !== 'signup';
+  $('ma-auth-submit').textContent = {login:'Entrar',signup:'Criar minha conta',update:'Salvar nova senha'}[mode];
   $('ma-auth-message').hidden = true;
 }
 function showAuth(mode) { $('ma-auth-mode').value = mode; configureAuth(); openModal('ma-auth-modal'); }
@@ -164,21 +165,15 @@ function handleAuth(event) {
       const data = check(await db.auth.signUp({email,password,options:{emailRedirectTo:location.href.split('#')[0]}}));
       if (!data.session) {
         $('ma-password').value = '';
-        $('ma-auth-mode').value = 'verify'; configureAuth();
-        $('ma-auth-message').textContent = 'Confira seu e-mail para confirmar a conta. Abra o link recebido ou cole o código se a mensagem trouxer um código. Verifique também o spam.';
+        $('ma-auth-message').textContent = 'Seu cadastro ainda não liberou o acesso. Entre em contato com o responsável pela apresentação.';
         $('ma-auth-message').hidden = false; return;
       }
-    } else if (mode === 'verify') check(await db.auth.verifyOtp({email,token:$('ma-code').value.trim(),type:'signup'}));
-    else if (mode === 'recover') {
-      check(await db.auth.resetPasswordForEmail(email,{redirectTo:location.href.split('#')[0]}));
-      $('ma-auth-message').textContent = 'Se houver uma conta com este e-mail, você receberá o link de recuperação.';
-      $('ma-auth-message').hidden = false; return;
     } else if (mode === 'update') {
-      if (!user) { notify('Abra o link de recuperação recebido por e-mail.',true); return; }
+      if (!user) { showAuth('login'); return; }
       check(await db.auth.updateUser({password}));
     }
-    $('ma-password').value = ''; $('ma-code').value = '';
-    closeModal('ma-auth-modal'); notify(mode === 'update' ? 'Senha atualizada.' : 'Conta conectada.');
+    $('ma-password').value = '';
+    closeModal('ma-auth-modal'); notify(mode === 'update' ? 'Senha atualizada.' : mode === 'signup' ? 'Conta criada! Você já pode usar o MenteAberta.' : 'Conta conectada.');
   });
 }
 
@@ -188,17 +183,18 @@ async function applySession(session, event) {
   $('ma-account-label').textContent = user ? 'Sua conta está conectada. Seu diário é privado.' : 'Entre para salvar seu diário e participar da comunidade.';
   $('ma-account').textContent = user ? 'Minha conta' : 'Entrar / Criar conta';
   $('ma-logout').hidden = !user; $('ma-admin-open').hidden = true;
+  $('ma-admin-activation').hidden = !user;
   if (previous !== user?.id) {
     supports.clear(); $('ma-my-posts').replaceChildren(); $('emotion-history').replaceChildren();
     $('emotion-feedback').classList.add('hidden'); $('ma-volunteer-status').textContent = '';
     $('volunteer-form').reset(); $('preview-name').textContent = '[Nome do Voluntário]';
     $('ma-admin-list').replaceChildren(); $('ma-admin-modal').hidden = true;
-    $('ma-account-modal').hidden = true; $('ma-delete-confirm').value = '';
+    $('ma-account-modal').hidden = true; $('ma-delete-confirm').value = ''; $('ma-admin-code').value = '';
   }
   await Promise.all([loadFeed(true), loadEmotions(), loadMyPosts(), loadApplication()].map(p => p.catch(error => notify(explain(error),true))));
   if (user && version === epoch) {
     const result = await db.rpc('current_user_is_admin');
-    if (version === epoch && !result.error) { admin = result.data === true; $('ma-admin-open').hidden = !admin; }
+    if (version === epoch && !result.error) { admin = result.data === true; $('ma-admin-open').hidden = !admin; $('ma-admin-activation').hidden = admin; }
   }
   if (event === 'PASSWORD_RECOVERY') showAuth('update');
 }

@@ -19,10 +19,19 @@ async function main() {
   const {alice:a,bob:b,admin:m} = clients;
   const alice = users.find(u=>u.role==='alice'), bob = users.find(u=>u.role==='bob');
   assert.equal(ok(await a.rpc('current_user_is_admin')),false);
+  if (process.env.MENTEABERTA_ADMIN_ACTIVATION_CODE) {
+    const activation_code = process.env.MENTEABERTA_ADMIN_ACTIVATION_CODE;
+    assert.equal(ok(await m.rpc('current_user_is_admin')),false);
+    assert.equal(ok(await b.rpc('activate_administrator',{activation_code})),false);
+    assert.equal(ok(await m.rpc('activate_administrator',{activation_code:'invalid-activation-code-with-at-least-32-characters'})),false);
+    assert.equal(ok(await m.rpc('activate_administrator',{activation_code})),true);
+    assert.equal(ok(await m.rpc('activate_administrator',{activation_code})),false);
+    console.log('PASS ativação administrativa: código correto, conta correta e uso único');
+  }
   assert.equal(ok(await m.rpc('current_user_is_admin')),true);
   ok(await b.auth.updateUser({data:{role:'admin',is_admin:true}}));
   assert.equal(ok(await b.rpc('current_user_is_admin')),false);
-  console.log('PASS login real, administrador confirmado e proteção contra promoção por metadata');
+  console.log('PASS login real, administrador autorizado e proteção contra promoção por metadata');
 
   const emotion = ok(await a.from('emotion_entries').insert({mood:'Bem'}).select()).at(0);
   assert.equal(ok(await b.from('emotion_entries').select('*').eq('id',emotion.id)).length,0);

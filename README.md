@@ -8,7 +8,7 @@ Site de educação emocional baseado no pacote `MenteAberta_Original_Aprimorado_
 
 ## Recursos implementados
 
-- Cadastro, login, confirmação por link/código e recuperação de senha pelo Supabase Auth.
+- Cadastro com entrada imediata, login e alteração de senha pelo Supabase Auth, sem confirmação de e-mail na apresentação.
 - Diário emocional privado, com os sete últimos registros na tela e exportação do histórico completo.
 - Comunidade compartilhada: relatos aguardam aprovação; apoios são únicos por conta e podem ser retirados.
 - Painel administrativo para aprovar, rejeitar ou devolver relatos/candidaturas para análise.
@@ -16,30 +16,27 @@ Site de educação emocional baseado no pacote `MenteAberta_Original_Aprimorado_
 - Download dos próprios dados e exclusão dos dados de participação.
 - Bia local com respostas programadas, sem envio da conversa ao banco.
 
-## Pendência para cadastro e recuperação por e-mail em produção
+## Configuração para apresentação acadêmica
 
-**É necessário conectar um provedor SMTP.** O proprietário optou por deixar esta etapa preparada. O remetente padrão de teste do Supabase tem restrições de destinatários e limites de envio, portanto o cadastro público por e-mail e a recuperação de senha não devem ser considerados liberados até essa conexão.
+**O cadastro funciona sem SMTP.** A confirmação de e-mail está desativada para que uma nova conta possa entrar imediatamente. O e-mail informado não comprova identidade. Os dados continuam protegidos por conta e pelas regras de acesso do banco.
 
-1. Escolha um serviço de envio transacional e valide um domínio/remetente que você controle.
-2. No [SMTP do projeto](https://supabase.com/dashboard/project/apilsepmphnrgsipnypk/auth/smtp), habilite o SMTP e preencha remetente, host, porta, usuário e senha/chave fornecidos pelo serviço. Guarde a credencial somente nesse painel.
-3. Salve e confira os limites em **Authentication → Rate Limits**.
-4. Faça um cadastro real com um e-mail seu, abra o link de confirmação e teste a recuperação de senha.
+Para demonstrar: abra o site, clique em **Entrar / Criar conta → Criar conta**, informe e-mail e senha e aceite o uso dos dados. A conta entra imediatamente e pode usar diário, comunidade e candidatura de voluntariado. Os artigos do blog, as histórias e a Bia também funcionam sem login.
 
-A URL principal e o redirecionamento permitido já foram ajustados para `https://eximaq.github.io/mente-aberta/`. Após testar o SMTP, altere `emailDeliveryReady` para `true` em `assets/backend-config.js` para remover o aviso de ativação do cadastro. Consulte a [documentação de SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
+Guarde a senha: esta versão não envia recuperação por e-mail. A senha pode ser alterada em **Minha conta** enquanto o usuário estiver conectado. Para habilitar envio de e-mails no futuro, conecte SMTP e adapte a interface antes de reativar a confirmação. Consulte a [documentação de SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
 
 ## Administração
 
-O e-mail do administrador foi configurado diretamente na lista privada do banco; ele não fica publicado neste repositório. Crie a conta com o e-mail informado ao configurar o projeto, confirme o endereço e entre. O botão **Administração** aparecerá automaticamente. A senha é definida pelo próprio titular.
+O responsável recebeu um código privado de ativação fora do repositório público. Crie a conta com o e-mail indicado, entre em **Minha conta → Ativar administração do projeto**, cole o código e confirme. Ele só funciona para o e-mail designado e só pode ser usado uma vez. Depois disso o acesso fica vinculado ao ID da conta; cadastrar um endereço de e-mail sozinho não concede administração.
 
-Para autorizar outra pessoa, o proprietário pode executar no SQL Editor:
+Para autorizar outra conta já identificada pelo proprietário, use o ID correto no SQL Editor:
 
 ```sql
-insert into private.administrators(email)
-values (lower('email-do-administrador@exemplo.com'))
-on conflict do nothing;
+insert into private.administrators(email,user_id)
+select lower(email),id from auth.users where id = 'ID-DA-CONTA-IDENTIFICADA'::uuid
+on conflict (email) do update set user_id=excluded.user_id,activation_hash=null;
 ```
 
-Somente endereços confirmados recebem esse acesso. `user_metadata` não concede permissões. Para revogar acesso, remova o e-mail da lista privada. As políticas consultam o banco em cada operação, sem depender de uma flag editável no navegador.
+Não conceda permissões com base apenas no e-mail de um cadastro sem verificação. `user_metadata` não concede permissões. Para revogar acesso, remova a associação da lista privada. As políticas consultam o banco em cada operação, sem depender de uma flag editável no navegador.
 
 ## Desenvolvimento
 
